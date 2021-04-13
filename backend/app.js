@@ -68,6 +68,14 @@ app.use('*', () => {
   throw new NotFoundError('Страница не найдена.');
 });
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://melkornwah.nomoredomains.icu/');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+
+  next();
+});
+
 app.use(errorLogger);
 
 app.use((err, req, res, next) => {
