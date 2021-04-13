@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const { celebrate, Joi } = require('celebrate');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 require('dotenv').config();
 const usersRoute = require('./routes/users');
 const cardsRoute = require('./routes/cards');
@@ -11,12 +12,6 @@ const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { createUser, login } = require('./controllers/users');
 const NotFoundError = require('./errors/not-found-error');
-
-const allowedCors = [
-  'https://melkornwah.nomoredomains.icu',
-  'http://melkornwah.nomoredomains.icu',
-  'localhost:3000',
-];
 
 const app = express();
 
@@ -37,17 +32,7 @@ app.use(requestLogger);
 
 app.use(cookieParser());
 
-app.use((req, res, next) => {
-  const { origin } = req.headers;
-
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
-  }
-
-  next();
-});
+app.use(cors());
 
 app.post('/signup', celebrate({
   body: Joi.object().keys({
