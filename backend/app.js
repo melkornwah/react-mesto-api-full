@@ -31,6 +31,14 @@ app.use(requestLogger);
 
 app.use(cookieParser());
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://melkornwah.nomoredomains.icu/');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+
+  next();
+});
+
 app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string()
@@ -66,14 +74,6 @@ app.use('/', usersRoute, cardsRoute);
 
 app.use('*', () => {
   throw new NotFoundError('Страница не найдена.');
-});
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://melkornwah.nomoredomains.icu/');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
-
-  next();
 });
 
 app.use(errorLogger);
