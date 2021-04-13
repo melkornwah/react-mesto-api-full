@@ -1,0 +1,22 @@
+.content {
+  margin: 40px auto 0 auto;
+  max-width: 882px;
+  width: 100%;
+  position: relative;
+  flex: 1;
+}
+
+@media screen and (max-width: 900px) {
+  .content {
+    max-width: 600px;
+    margin-top: 36px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .content {
+    max-width: 282px;
+    margin-top: 42px;
+  }
+}
+

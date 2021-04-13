@@ -1,0 +1,16 @@
+.profile__photo-edit {
+  background-image: url("../../../images/btn_edit-photo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.profile__photo-edit:hover {
+  z-index: 1;
+}

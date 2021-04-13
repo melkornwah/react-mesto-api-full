@@ -1,0 +1,14 @@
+.login__heading {
+  margin: 60px 0 0 0;
+  text-align: center;
+  line-height: 1.7;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+@media screen and (max-width: 600px) {
+  .login__heading {
+    line-height: 1.41;
+    font-size: 20px;
+  }
+}

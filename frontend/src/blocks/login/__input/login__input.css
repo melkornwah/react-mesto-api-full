@@ -1,0 +1,20 @@
+.login__input {
+  margin: 0;
+  padding-bottom: 13px;
+  width: 100%;
+  background-color: black;
+  border: none;
+  border-bottom: 2px solid #CCC;
+  color: #CCC;
+  line-height: 1;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.login__input:last-child {
+  margin-top: 30px;
+}
+
+.login__input:focus {
+  outline: none;
+}

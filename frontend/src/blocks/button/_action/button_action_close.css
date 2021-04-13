@@ -1,0 +1,21 @@
+.button_action_close {
+  background-image: url("../../../images/btn_close.png");
+  background-size: cover;
+  z-index: 2;
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  outline: none;
+  border: none;
+  width: 57px;
+  height: 57px;
+}
+
+@media screen and (max-width: 600px) {
+  .button_action_close {
+    width: 38px;
+    height: 38px;
+    top: -35px;
+    right: -35px;
+  }
+}

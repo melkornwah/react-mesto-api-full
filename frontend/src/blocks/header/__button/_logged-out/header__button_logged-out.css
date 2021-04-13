@@ -1,0 +1,12 @@
+.header__button_logged-out {
+  color: white;
+  position: absolute;
+  top: 0;
+  right: 40px;
+}
+
+@media screen and (max-width: 600px) {
+  .header__button_logged-out {
+    right: 30px;
+  }
+}

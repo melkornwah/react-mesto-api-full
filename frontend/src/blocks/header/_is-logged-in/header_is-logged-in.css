@@ -1,0 +1,8 @@
+
+
+@media screen and (max-width: 600px) {
+  .header_is-logged-in {
+    border-top: 1px solid rgba(84, 84, 84, .7);
+    margin-top: 142px;
+  }
+}

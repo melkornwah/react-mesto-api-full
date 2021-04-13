@@ -1,0 +1,7 @@
+.image-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  z-index: 3;
+}
