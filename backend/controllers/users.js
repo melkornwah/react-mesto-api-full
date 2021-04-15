@@ -148,11 +148,7 @@ module.exports.login = (req, res, next) => {
         { expiresIn: '7d' },
       );
 
-      return res.cookie('jwt', token, {
-        maxAge: 3600000,
-        httpOnly: true,
-        sameSite: true,
-      });
+      return res.send({ token });
     })
     .catch(next);
 };

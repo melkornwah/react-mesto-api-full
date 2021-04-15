@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const { celebrate, Joi } = require('celebrate');
-const cookieParser = require('cookie-parser');
 const cors = require('cors');
 require('dotenv').config();
 const usersRoute = require('./routes/users');
@@ -29,8 +28,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 app.use(requestLogger);
-
-app.use(cookieParser());
 
 app.use(cors());
 
@@ -65,7 +62,8 @@ app.post('/signin', celebrate({
 
 app.use(auth);
 
-app.use('/', usersRoute, cardsRoute);
+app.use('/users', usersRoute);
+app.use('/cards', cardsRoute);
 
 app.use('*', () => {
   throw new NotFoundError('Страница не найдена.');

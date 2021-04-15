@@ -18,7 +18,6 @@ import SignIn from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import { register, authorize, authenticate } from "../utils/authMesto";
 
-
 function App() {  
   const history = useHistory();
   const [isEditAvatarPopupOpen, setAvatarPopupState] = React.useState(false);
