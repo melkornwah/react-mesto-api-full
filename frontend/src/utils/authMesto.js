@@ -4,7 +4,6 @@ const getOptions = (data) => {
   const options = {
     method: "POST",
     headers: {
-      authorization: "f14a0855-c596-42e6-9cca-cb9c4d82767b",
       "Accept": "application/json",
       "Content-Type": "application/json"
     },
@@ -20,7 +19,7 @@ export const register = (data) => {
   return fetch(`${BASE_URL}/signup`, getOptions(data))
   .then((response) => {
     try {
-      if (response.status === 201){
+      if (response.status === 200){
         return response.json();
       }
     } catch(e){
@@ -35,14 +34,18 @@ export const register = (data) => {
 
 export const authorize = (data) => {
   return fetch(`${BASE_URL}/signin`, getOptions(data))
-  .then((response => response.json()))
-  .then((res) => {
+  .then(response => {
+    response.json();
+  })
+  .then(res => {
     if (res.token){
       localStorage.setItem('jwt', res.token);
       return res;
     }
   })
-  .catch(err => console.log(err))
+  .catch(err => {
+    console.log(err)
+  });
 };
 
 export const authenticate = (token) => {

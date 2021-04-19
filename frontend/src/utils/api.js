@@ -1,8 +1,6 @@
 class Api {
-  constructor({ baseURL, headers, credentials }) {
+  constructor({ baseURL }) {
     this._baseURL = baseURL;
-    this._headers = headers;
-    this._credentials = credentials;
   }
 
   _getRequestResult(url, options) {
@@ -21,23 +19,17 @@ class Api {
 
   loadInitialCards() {
     return this._getRequestResult(`${this._baseURL}/cards`, {
-      headers: this._headers,
-      credentials: this._credentials,
     });
   }
 
   getUserInfo() {
     return this._getRequestResult(`${this._baseURL}/users/me`, {
-      headers: this._headers,
-      credentials: this._credentials,
     });
   }
 
   updateUserInfo(formData) {
     return this._getRequestResult(`${this._baseURL}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
-      credentials: this._credentials,
       body: JSON.stringify({
         name: formData.name,
         about: formData.job
@@ -48,8 +40,6 @@ class Api {
   postCard(formData) {
     return this._getRequestResult(`${this._baseURL}/cards`, {
       method: "POST",
-      headers: this._headers,
-      credentials: this._credentials,
       body: JSON.stringify({
         name: formData.name,
         link: formData.link
@@ -60,23 +50,17 @@ class Api {
   deleteCard(card) {
     return this._getRequestResult(`${this._baseURL}/cards/${card._id}`, {
       method: "DELETE",
-      headers: this._headers,
-      credentials: this._credentials,
     });
   }
 
   changeLikeCardStatus(card, isLiked) {
     if (isLiked) {
-      return this._getRequestResult(`${this._baseURL}/cards/${card._id}/likes`, {
+      return this._getRequestResult(`${this._baseURL}/cards/likes/${card._id}`, {
         method: "DELETE",
-        headers: this._headers,
-        credentials: this._credentials,
       });
     } else {
-      return this._getRequestResult(`${this._baseURL}/cards/${card._id}/likes`, {
+      return this._getRequestResult(`${this._baseURL}/cards/likes/${card._id}`, {
         method: "PUT",
-        headers: this._headers,
-        credentials: this._credentials,
       });
     }
   }
@@ -84,8 +68,6 @@ class Api {
   patchAvatar(image) {
     return this._getRequestResult(`${this._baseURL}/users/me/avatar`, {
       method: "PATCH",
-      headers: this._headers,
-      credentials: this._credentials,
       body: JSON.stringify({
         avatar: image.link
       })
@@ -94,12 +76,7 @@ class Api {
 }
 
 const api = new Api({
-  baseURL: "https://api.melkornwah.nomoredomains.icu",
-  headers: {
-    authorization: "f14a0855-c596-42e6-9cca-cb9c4d82767b",
-    "Content-Type": "application/json"
-  },
-  credentials: 'include'
+  baseURL: "https://api.melkornwah.nomoredomains.icu"
 });
 
 export default api;
