@@ -46,7 +46,11 @@ function Main(props) {
       </section>
       <section className="elements">
         <ul className="elements__list">
-          {props.cards.map(card => (
+        {
+          props.cards.length === 0 ?
+          console.log("Карточек пока что нет.")
+          :
+          props.cards.map(card => (
             <Card
               item={card}
               key={card._id}
@@ -54,7 +58,8 @@ function Main(props) {
               onLikeClick={props.onCardLike}
               onDeleteClick={props.onCardDelete}
             />
-          ))}
+          ))
+        }
         </ul>
       </section>
     </main>

@@ -1,6 +1,7 @@
 class Api {
-  constructor({ baseURL }) {
+  constructor({ baseURL, headers }) {
     this._baseURL = baseURL;
+    this._headers = headers;
   }
 
   _getRequestResult(url, options) {
@@ -19,11 +20,13 @@ class Api {
 
   loadInitialCards() {
     return this._getRequestResult(`${this._baseURL}/cards`, {
+      headers: this._headers
     });
   }
 
   getUserInfo() {
     return this._getRequestResult(`${this._baseURL}/users/me`, {
+      headers: this._headers
     });
   }
 
@@ -33,7 +36,8 @@ class Api {
       body: JSON.stringify({
         name: formData.name,
         about: formData.job
-      })
+      }),
+      headers: this._headers
     });
   }
 
@@ -43,13 +47,15 @@ class Api {
       body: JSON.stringify({
         name: formData.name,
         link: formData.link
-      })
+      }),
+      headers: this._headers
     });
   }
 
   deleteCard(card) {
     return this._getRequestResult(`${this._baseURL}/cards/${card._id}`, {
       method: "DELETE",
+      headers: this._headers
     });
   }
 
@@ -57,10 +63,12 @@ class Api {
     if (isLiked) {
       return this._getRequestResult(`${this._baseURL}/cards/likes/${card._id}`, {
         method: "DELETE",
+        headers: this._headers
       });
     } else {
       return this._getRequestResult(`${this._baseURL}/cards/likes/${card._id}`, {
         method: "PUT",
+        headers: this._headers
       });
     }
   }
@@ -70,7 +78,8 @@ class Api {
       method: "PATCH",
       body: JSON.stringify({
         avatar: image.link
-      })
+      }),
+      headers: this._headers
     });
   }
 }
@@ -78,7 +87,7 @@ class Api {
 const api = new Api({
   baseURL: "https://api.melkornwah.nomoredomains.icu",
   headers: {
-    authorization: `${localStorage.jwt}`
+    "Authorization": `Bearer ${localStorage.jwt}`
   }
 });
 

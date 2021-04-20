@@ -5,7 +5,13 @@ const ServerError = require('../errors/server-error');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => {
+      if (!cards.length === 0) {
+        res.send({ message: 'Карточек пока нет.' });
+      } else {
+        res.send({ data: cards });
+      }
+    })
     .catch(() => {
       throw new ServerError('Произошла ошибка на сервере.');
     })
