@@ -54,7 +54,11 @@ export const authenticate = (token) => {
       'Authorization': `Bearer ${token}`,
     }
   })
-  .then(res => res.json())
-  .then(data => data)
+  .then(res => {
+    return res.json();
+  })
+  .then(data => {
+    return data;
+  })
   .catch(err => console.log(err))
 };
