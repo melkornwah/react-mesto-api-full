@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const { celebrate, Joi } = require('celebrate');
+const cors = require('cors');
 const router = require('express').Router();
 require('dotenv').config();
 const usersRoute = require('./routes/users');
@@ -30,12 +31,14 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 app.use(requestLogger);
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://melkornwah.nomoredomains.icu');
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
 
   next();
 });
+
+app.use(cors({ origin: true, credentials: true }));
 
 app.post('/signup', celebrate({
   body: Joi.object().keys({
@@ -70,8 +73,10 @@ router.options('*', (req, res) => {
   res.status(204).send();
 });
 
-app.use('/users', auth, usersRoute);
-app.use('/cards', auth, cardsRoute);
+app.use(auth);
+
+app.use('/users', usersRoute);
+app.use('/cards', cardsRoute);
 
 app.use('*', () => {
   throw new NotFoundError('Страница не найдена.');

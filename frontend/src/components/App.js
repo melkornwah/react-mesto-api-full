@@ -28,6 +28,7 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState({item: {}, isOpen: false});
   const [user, setUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
+  const [token, setTokenValue] = React.useState("");
   const [isLoggedIn, setLoggedInState] = React.useState(false);
   const [isSuccesfullAuth, setSuccessfullAuthState] = React.useState(false);
   const [redirection, setRedirection] = React.useState("Вход");
@@ -151,7 +152,7 @@ function App() {
       })
   }
 
-  function handleRegister(data) {
+  function handleRegister(data, token) {
     register(data)
       .then(res => {
         if(!(res === undefined)){
@@ -169,7 +170,7 @@ function App() {
       })
   }
 
-  function handleLogIn(data) {
+  function handleLogIn(data, token) {
     authorize(data)
       .then(res => {
         if(!(res === undefined)) {
@@ -185,6 +186,10 @@ function App() {
       .catch(err => {
         console.log(err);
       })
+  }
+
+  function changeToken(value) {
+    setTokenValue(`${token}`);
   }
 
   function handleLogOut() {
@@ -212,24 +217,28 @@ function App() {
   }
 
   React.useEffect(() => {
-    api.getUserInfo()
+    if (isLoggedIn === true) {
+      api.getUserInfo()
       .then(data => {
         setUser(data);
       })
       .catch(err => {
         console.log(err);
       })
-  }, []);
+    }
+  }, [isLoggedIn]);
 
   React.useEffect(() => {
-    api.loadInitialCards()
+    if (isLoggedIn === true) {
+      api.loadInitialCards()
       .then(items => {
         setCards(items);
       })
       .catch(err => {
         console.log(err);
       })
-  }, []);
+    }
+  }, [isLoggedIn]);
 
   React.useEffect(() => {
     tokenCheck();
@@ -263,11 +272,13 @@ function App() {
             <SignUp
               onRedirectionClick={handleRedirection}
               onSubmit={handleRegister}
+              token={changeToken}
             />
           </Route>
           <Route path={"/signin"}>
             <SignIn 
               onSubmit={handleLogIn}
+              token={changeToken}
             />
           </Route>
           <Footer />

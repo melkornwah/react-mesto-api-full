@@ -76,7 +76,12 @@ class Api {
 }
 
 const api = new Api({
-  baseURL: "https://api.melkornwah.nomoredomains.icu"
+  baseURL: "https://api.melkornwah.nomoredomains.icu",
+  headers: {
+    "Authorization": `${localStorage.jwt}`,
+    "Accept": "application/json",
+    "Content-Type": "application/json"
+  }
 });
 
 export default api;
