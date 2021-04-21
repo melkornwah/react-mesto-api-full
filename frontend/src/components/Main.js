@@ -47,9 +47,7 @@ function Main(props) {
       <section className="elements">
         <ul className="elements__list">
         {
-          props.cards.length === 0 ?
-          console.log("Карточек пока что нет.")
-          :
+          props.cards.isArray ?
           props.cards.map(card => (
             <Card
               item={card}
@@ -59,6 +57,8 @@ function Main(props) {
               onDeleteClick={props.onCardDelete}
             />
           ))
+          :
+          console.log("Карточек пока что нет.")
         }
         </ul>
       </section>

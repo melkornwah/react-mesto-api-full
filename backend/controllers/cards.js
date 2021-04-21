@@ -7,9 +7,9 @@ module.exports.getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => {
       if (!cards.length === 0) {
-        res.send({ message: 'Карточек пока нет.' });
+        res.json({ message: 'Карточек пока нет.' });
       } else {
-        res.send({ data: cards });
+        res.json({ data: cards });
       }
     })
     .catch(() => {
@@ -24,7 +24,7 @@ module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner })
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.json({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new BadRequestError('Переданы некорректные данные при создании карточки.');
@@ -42,7 +42,7 @@ module.exports.deleteCard = (req, res, next) => {
 
       if (ownerId === req.user._id) {
         return Card.findByIdAndRemove(req.params.cardId)
-          .then(() => res.send({ message: 'Карточка была удалена.' }));
+          .then(() => res.json({ message: 'Карточка была удалена.' }));
       }
       throw new Error('Вы не являетесь владельцем карточки.');
     })
@@ -66,7 +66,7 @@ module.exports.likeCard = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true })
     .orFail(new Error('Карточка с указанным _id не найдена.'))
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.json({ data: card }))
     .catch((err) => {
       if (err.message === 'Карточка с указанным _id не найдена.') {
         throw new NotFoundError(err.message);
@@ -86,7 +86,7 @@ module.exports.dislikeCard = (req, res, next) => {
     { new: true },
   )
     .orFail(new Error('Карточка с указанным _id не найдена.'))
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.json({ data: card }))
     .catch((err) => {
       if (err.message === 'Карточка с указанным _id не найдена.') {
         throw new NotFoundError(err.message);

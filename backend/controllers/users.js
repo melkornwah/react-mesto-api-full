@@ -9,7 +9,7 @@ const ServerError = require('../errors/server-error');
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send({ data: users }))
+    .then((users) => res.json({ data: users }))
     .catch(() => {
       throw new ServerError('Произошла ошибка на сервере.');
     })
@@ -20,7 +20,7 @@ module.exports.getUserById = (req, res, next) => {
   User.findById(req.params.userId)
     .orFail(new NotFoundError('Пользователь по указанному _id не найден.'))
     .then((user) => {
-      res.send({ data: user });
+      res.json({ data: user });
     })
     .catch(next);
 };
@@ -29,7 +29,7 @@ module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(new NotFoundError('Пользователь по указанному _id не найден.'))
     .then((user) => {
-      res.send({ data: user });
+      res.json({ data: user });
     })
     .catch(next);
 };
@@ -58,7 +58,7 @@ module.exports.createUser = (req, res, next) => {
               password: hash,
             })
               .then((user) => {
-                res.send({
+                res.json({
                   data: {
                     name: user.name,
                     about: user.about,
@@ -92,7 +92,7 @@ module.exports.updateUser = (req, res, next) => {
   { runValidators: true, new: true })
     .orFail(new Error('Пользователь по указанному _id не найден.'))
     .then((user) => {
-      res.send({ data: user });
+      res.json({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.message === 'Переданы некорректные данные при обновлении профиля.') {
@@ -111,7 +111,7 @@ module.exports.updateAvatar = (req, res, next) => {
     avatar: req.body.avatar,
   }, { runValidators: true, new: true })
     .orFail(new Error('Пользователь по указанному _id не найден.'))
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.json({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new BadRequestError('Переданы некорректные данные при обновлении профиля.');
@@ -148,7 +148,7 @@ module.exports.login = (req, res, next) => {
         { expiresIn: '7d' },
       );
 
-      return res.send({ token });
+      return res.json({ token });
     })
     .catch(next);
 };

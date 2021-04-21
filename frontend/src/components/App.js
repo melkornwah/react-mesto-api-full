@@ -220,7 +220,7 @@ function App() {
     if (isLoggedIn === true) {
       api.getUserInfo()
       .then(data => {
-        setUser(data);
+        setUser(data.data);
       })
       .catch(err => {
         console.log(err);
@@ -232,7 +232,7 @@ function App() {
     if (isLoggedIn === true) {
       api.loadInitialCards()
       .then(items => {
-        setCards(items);
+        setCards(items.data);
       })
       .catch(err => {
         console.log(err);
