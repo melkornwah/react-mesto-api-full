@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const { celebrate, Joi } = require('celebrate');
 const cors = require('cors');
+const router = require('express').Router();
 require('dotenv').config();
 const usersRoute = require('./routes/users');
 const cardsRoute = require('./routes/cards');
@@ -73,6 +74,10 @@ app.post('/signin', celebrate({
       .min(8),
   }),
 }), login);
+
+router.options('*', (req, res) => {
+  res.status(204).send();
+});
 
 app.use(auth);
 
