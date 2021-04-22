@@ -62,10 +62,9 @@ module.exports.deleteCard = (req, res, next) => {
 };
 
 module.exports.likeCard = (req, res, next) => {
-  Card.findById(req.params.cardId,
+  Card.findByIdAndUpdate(req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true })
-    .populate('likes')
     .orFail(new Error('Карточка с указанным _id не найдена.'))
     .then((card) => res.json({ data: card }))
     .catch((err) => {

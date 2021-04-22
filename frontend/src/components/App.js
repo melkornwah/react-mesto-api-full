@@ -145,12 +145,14 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i === user._id);
+    const data = card;
 
-    api.changeLikeCardStatus(card, isLiked)
+    const isLiked = (data&& data.likes && data.likes.length !== 0) ? data.likes.some(i => i === user._id) : false;
+
+    api.changeLikeCardStatus(data, isLiked)
       .then((newCard) => {
         const newCards = cards.map(
-          (c) => c._id === card._id ? newCard : c
+          (c) => c._id === data._id ? newCard.data : c
         );
         setCards(newCards);
       })

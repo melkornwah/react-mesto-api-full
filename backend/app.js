@@ -40,6 +40,12 @@ app.use((req, res, next) => {
 
 app.use(cors({ origin: true, credentials: true }));
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string()

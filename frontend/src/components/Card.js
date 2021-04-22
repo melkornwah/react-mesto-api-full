@@ -18,7 +18,7 @@ function Card(props) {
 
   const user = React.useContext(CurrentUserContext);
 
-  const isLiked = props.item.likes.some(i => i === user._id);
+  const isLiked = (props.item && props.item.likes && props.item.likes.length !== 0) ? props.item.likes.some(i => i === user._id) : false;
 
   const isOwn = props.item.owner === user._id;
 
@@ -52,7 +52,9 @@ function Card(props) {
           >
           </button>}
           <p className="element__like-counter">
-            {props.item.likes.length}
+            {
+              (props.item && props.item.likes && props.item.likes.length !== 0) ? props.item.likes.length : 0
+            }
           </p>
         </div>
       </div>
