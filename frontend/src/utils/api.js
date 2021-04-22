@@ -61,12 +61,12 @@ class Api {
 
   changeLikeCardStatus(card, isLiked) {
     if (isLiked) {
-      return this._getRequestResult(`${this._baseURL}/cards/likes/${card._id}`, {
+      return this._getRequestResult(`${this._baseURL}/cards/${card._id}/likes`, {
         method: "DELETE",
         headers: this._headers
       });
     } else {
-      return this._getRequestResult(`${this._baseURL}/cards/likes/${card._id}`, {
+      return this._getRequestResult(`${this._baseURL}/cards/${card._id}/likes`, {
         method: "PUT",
         headers: this._headers
       });
@@ -87,7 +87,8 @@ class Api {
 const api = new Api({
   baseURL: "https://api.melkornwah.nomoredomains.icu",
   headers: {
-    "Authorization": `Bearer ${localStorage.jwt}`
+    "Authorization": `Bearer ${localStorage.jwt}`,
+    "Content-Type": "application/json"
   }
 });
 

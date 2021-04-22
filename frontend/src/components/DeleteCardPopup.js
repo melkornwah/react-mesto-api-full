@@ -5,7 +5,7 @@ function DeleteCardPopup(props) {
   function handleCardDelete(evt) {
     evt.preventDefault();
 
-    props.onCardDelete();
+    props.onCardDelete(props.currentCard);
   }
 
   return (

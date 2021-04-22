@@ -11,14 +11,16 @@ function Card(props) {
   }
 
   function handleDeleteClick() {
+    props.setCurrentCard(props.item);
+
     props.onDeleteClick(props.item);
   }
 
   const user = React.useContext(CurrentUserContext);
 
-  const isLiked = props.item.likes.some(i => i._id === user._id);
+  const isLiked = props.item.likes.some(i => i === user._id);
 
-  const isOwn = props.item.owner._id === user._id;
+  const isOwn = props.item.owner === user._id;
 
   return(
     <li className="element">
@@ -34,18 +36,18 @@ function Card(props) {
           {props.item.name}
         </h2>
         <div className="element__likes">
-          {isLiked ? 
-          <button 
-            type="button" 
-            className="button button_action_like button_action_like_active" 
+          {isLiked ?
+          <button
+            type="button"
+            className="button button_action_like button_action_like_active"
             aria-label="Понравилось" onClick={handleLikeClick}
           >
           </button>
-          : 
-          <button 
-            type="button" 
-            className="button button_action_like" 
-            aria-label="Понравилось" 
+          :
+          <button
+            type="button"
+            className="button button_action_like"
+            aria-label="Понравилось"
             onClick={handleLikeClick}
           >
           </button>}

@@ -47,11 +47,12 @@ function Main(props) {
       <section className="elements">
         <ul className="elements__list">
         {
-          props.cards.isArray ?
-          props.cards.map(card => (
+          Array.isArray(props.cards) ?
+          props.cards.map((card, i) => (
             <Card
               item={card}
-              key={card._id}
+              key={i}
+              setCurrentCard={props.setCurrentCard}
               onImageClick={props.onCardClick}
               onLikeClick={props.onCardLike}
               onDeleteClick={props.onCardDelete}

@@ -26,6 +26,7 @@ function App() {
   const [isDeleteCardPopupOpen, setDeleteCardPopupState] = React.useState(false);
   const [isInfoTooltipOpen, setInfoTooltipState] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({item: {}, isOpen: false});
+  const [currentCard, setCurrentCard] = React.useState({});
   const [user, setUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [token, setTokenValue] = React.useState("");
@@ -88,7 +89,7 @@ function App() {
   function handleUpdateUser(formData) {
     api.updateUserInfo(formData)
       .then(data => {
-        setUser(data);
+        setUser(data.data);
       })
       .then(() => {
         closeAllPopups();
@@ -101,7 +102,7 @@ function App() {
   function handleUpdateAvatar(formData) {
     api.patchAvatar(formData)
       .then(data => {
-        setUser(data);
+        setUser(data.data);
       })
       .then(() => {
         closeAllPopups();
@@ -114,7 +115,7 @@ function App() {
   function handleCreateCard(formData) {
     api.postCard(formData)
       .then((newCard) => {
-        setCards([newCard, ...cards]);
+        setCards([newCard.data, ...cards]);
       })
       .then(() => {
         closeAllPopups();
@@ -124,21 +125,27 @@ function App() {
       })
   }
 
-  function handleCardDelete(card) {
+  function handleCardDeleteClick(card) {
     api.deleteCard(card)
-      .then(() => {
-        const newCards = cards.filter((c) => {
-          return !(c._id === card._id);
-        });
-        setCards(newCards);
-      })
-      .catch(err => {
-        console.log(err);
-      })
+    .then(() => {
+      const newCards = cards.filter((c) => {
+        return !(c._id === card._id);
+      });
+      setCards(newCards);
+      
+      closeAllPopups();
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+
+  function handleCardDelete() {
+    setDeleteCardPopupState(true);
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === user._id);
+    const isLiked = card.likes.some(i => i === user._id);
 
     api.changeLikeCardStatus(card, isLiked)
       .then((newCard) => {
@@ -266,6 +273,7 @@ function App() {
             cards={cards}
             onCardLike={handleCardLike}
             onCardDelete={handleCardDelete}
+            setCurrentCard={setCurrentCard}
             userInfo={user}
           />
           <Route path={"/signup"}>
@@ -302,6 +310,8 @@ function App() {
           />
           <DeleteCardPopup 
             isOpen={isDeleteCardPopupOpen}
+            currentCard={currentCard}
+            onCardDelete={handleCardDeleteClick}
             onClose={closeAllPopups}
             onEscPress={handleEscKeyClose}
           />
